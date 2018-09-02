@@ -1,7 +1,7 @@
 provider "aws" {
         region     = "${var.region}"
 }
-resource "aws_vpc" "My_VPC" {
+resource "aws_vpc" "my_vpc" {
   cidr_block           = "${var.vpccidrblock}"
   instance_tenancy     = "${var.instanceTenancy}" 
   enable_dns_support   = "${var.dnssupport}" 
@@ -10,21 +10,21 @@ tags {
     Name = "My custom VPC"
   }
 } 
-
+data "aws_availability_zones" "available" {
+}
 resource "aws_subnet" "my_public_subnet" {
   vpc_id                  = "${aws_vpc.my_vpc.id}"
-  cidr_block              = "${var.subnetcidrblock}"
+  cidr_block              = "${cidrsubnet(aws_vpc.my_vpc.cidr_block, 8,count.index + 1)}"
   map_public_ip_on_launch = "${var.mappublicip}" 
-  availability_zone       = "${var.availabilityZone}"
+  availability_zone       = "${data.aws_availability_zones.available.names[count.index]}"
 tags = {
    Name = "My Public Subnet"
   }
 }
 resource "aws_subnet" "my_private_subnet" {
   vpc_id                  = "${aws_vpc.my_vpc.id}"
-  cidr_block              = "${var.subnetcidrblock}"
-  map_public_ip_on_launch = "${var.mappublicip}" 
-  availability_zone       = "${var.availabilityZone}"
+  cidr_block              = "${cidrsubnet(aws_vpc.my_vpc.cidr_block, 8,count.index + 10)}" 
+  availability_zone       = "${data.aws_availability_zones.available.names[count.index]}"
 tags = {
    Name = "My Private Subnet"
   }
