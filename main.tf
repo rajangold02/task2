@@ -23,7 +23,7 @@ tags = {
 }
 resource "aws_subnet" "my_private_subnet" {
   vpc_id                  = "${aws_vpc.my_vpc.id}"
-  cidr_block              = "${cidrsubnet(aws_vpc.my_vpc.cidr_block, 8,count.index + 10)}" 
+  cidr_block              = "${cidrsubnet(aws_vpc.my_vpc.cidr_block, 8,count.index + 2)}" 
   availability_zone       = "${data.aws_availability_zones.available.names[count.index]}"
 tags = {
    Name = "My Private Subnet"
