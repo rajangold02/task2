@@ -65,10 +65,10 @@ resource "aws_route" "my_vpc_internet_access" {
 }
 
 resource "aws_route_table_association" "my_vpc_association" {
-    subnet_id      = "${aws_subnet.my_public_Subnet.id}"
+    subnet_id      = "${aws_subnet.my_public_subnet.id}"
     route_table_id = "${aws_route_table.my_public_route_table.id}"
 }
-resource "aws_route_table_association" "my_vpc_association" {
-    subnet_id      = "${aws_subnet.my_private_Subnet.id}"
+resource "aws_route_table_association" "my_vpc_private_association" {
+    subnet_id      = "${aws_subnet.my_private_subnet.id}"
     route_table_id = "${aws_route_table.my_private_route_table.id}"
 }
