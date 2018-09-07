@@ -1,24 +1,31 @@
 variable "access_key" {}
 variable "secret_key" {}
 variable "region" {}
-variable "az_count"{
-default = "1"
+
+variable "az_count" {
+  default = "1"
 }
+
 variable "instanceTenancy" {
- default = "default"
+  default = "default"
 }
+
 variable "dnssupport" {
- default = true
+  default = true
 }
+
 variable "dnshostnames" {
-        default = true
+  default = true
 }
+
 variable "vpccidrblock" {
- default = "30.0.0.0/16"
+  default = "30.0.0.0/16"
 }
+
 variable "destinationcidrblock" {
-        default = "0.0.0.0/0"
+  default = "0.0.0.0/0"
 }
+
 variable "mappublicip" {
-        default = true
+  default = true
 }
