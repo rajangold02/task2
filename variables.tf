@@ -1,6 +1,6 @@
-variable "access_key" {}
-variable "secret_key" {}
-variable "region" {}
+variable "region" {
+ default = ""
+}
 variable "az_count"{
 default = "1"
 }
