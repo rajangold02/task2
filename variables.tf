@@ -19,7 +19,7 @@ variable "dnshostnames" {
 }
 
 variable "vpccidrblock" {
-  default = "30.0.0.0/16"
+  default = ""
 }
 
 variable "destinationcidrblock" {
