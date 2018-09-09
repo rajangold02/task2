@@ -19,7 +19,7 @@ variable "dnshostnames" {
 }
 
 variable "vpccidrblock" {
-  default = ""
+  default = "${env.vpc}"
 }
 
 variable "destinationcidrblock" {
