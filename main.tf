@@ -21,7 +21,7 @@ resource "aws_subnet" "my_public_subnet" {
   vpc_id                  = "${aws_vpc.my_vpc.id}"
   cidr_block              = "${cidrsubnet(aws_vpc.my_vpc.cidr_block, 8,count.index + 1)}"
   map_public_ip_on_launch = "${var.mappublicip}"
-  availability_zone       = "${data.aws_availability_zones.available.names[count.index]}"
+  availability_zone       = "${data.aws_availability_zones.available.names[0]}"
 
   tags = {
     Name = "My Public Subnet"
@@ -31,7 +31,7 @@ resource "aws_subnet" "my_public_subnet" {
 resource "aws_subnet" "my_private_subnet" {
   vpc_id            = "${aws_vpc.my_vpc.id}"
   cidr_block        = "${cidrsubnet(aws_vpc.my_vpc.cidr_block, 8,count.index + 5)}"
-  availability_zone = "${data.aws_availability_zones.available.names[count.index]}"
+  availability_zone = "${data.aws_availability_zones.available.names[1]}"
 
   tags = {
     Name = "My Private Subnet"
@@ -52,7 +52,7 @@ resource "aws_eip" "nat_eip" {
 
 resource "aws_nat_gateway" "natgw" {
   allocation_id = "${aws_eip.nat_eip.id}"
-  subnet_id     = "${aws_subnet.my_public_subnet.id}"
+  subnet_id     = "${aws_subnet.my_public_subnet.0.id}"
 }
 
 resource "aws_route_table" "my_public_route_table" {
@@ -78,11 +78,11 @@ resource "aws_route" "my_vpc_internet_access" {
 }
 
 resource "aws_route_table_association" "my_vpc_association" {
-  subnet_id      = "${aws_subnet.my_public_subnet.id}"
+  subnet_id      = "${element(aws_subnet.my_public_subnet.*.id,count.index)}"
   route_table_id = "${aws_route_table.my_public_route_table.id}"
 }
 
 resource "aws_route_table_association" "my_vpc_private_association" {
-  subnet_id      = "${aws_subnet.my_private_subnet.id}"
+  subnet_id      = "${element(aws_subnet.my_private_subnet.*.id,count.index)}"
   route_table_id = "${aws_route_table.my_private_route_table.id}"
 }

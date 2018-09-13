@@ -3,7 +3,7 @@ variable "secret_key" {}
 variable "region" {}
 
 variable "az_count" {
-  default = "1"
+  default = "2"
 }
 
 variable "instanceTenancy" {
